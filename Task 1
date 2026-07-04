@@ -1,0 +1,57 @@
+class BankAccount:
+    def __init__(self, name, balance):
+        self.name = name
+        self.__balance = balance   # Encapsulation (Private Variable)
+
+    def deposit(self, amount):
+        self.__balance += amount
+        print(f"₹{amount} deposited successfully.")
+
+    def withdraw(self, amount):
+        if amount <= self.__balance:
+            self.__balance -= amount
+            print(f"₹{amount} withdrawn successfully.")
+        else:
+            print("Insufficient Balance!")
+
+    def get_balance(self):
+        return self.__balance
+
+
+# Inheritance
+class ATM(BankAccount):
+    def menu(self):
+        while True:
+            print("\n===== ATM MENU =====")
+            print("1. Check Balance")
+            print("2. Deposit")
+            print("3. Withdraw")
+            print("4. Exit")
+
+            choice = input("Enter your choice: ")
+
+            if choice == "1":
+                print("Current Balance: ₹", self.get_balance())
+
+            elif choice == "2":
+                amount = float(input("Enter amount to deposit: "))
+                self.deposit(amount)
+
+            elif choice == "3":
+                amount = float(input("Enter amount to withdraw: "))
+                self.withdraw(amount)
+
+            elif choice == "4":
+                print("Thank you for using the ATM!")
+                break
+
+            else:
+                print("Invalid Choice! Try Again.")
+
+
+# Main Program
+name = input("Enter Account Holder Name: ")
+balance = float(input("Enter Initial Balance: ₹"))
+
+account = ATM(name, balance)
+account.menu()
