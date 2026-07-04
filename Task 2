@@ -1,0 +1,51 @@
+import csv
+
+input_file = "students.csv"
+output_file = "cleaned_students.csv"
+
+cleaned_data = []
+
+# Read CSV File
+with open(input_file, "r") as file:
+    reader = csv.DictReader(file)
+
+    for row in reader:
+        # Data Cleaning
+        name = row["Name"].strip().title()
+        age = row["Age"].strip()
+        marks = row["Marks"].strip()
+
+        # Skip rows with missing values
+        if not age or not marks:
+            continue
+
+        age = int(age)
+        marks = float(marks)
+
+        # Data Transformation
+        if marks >= 90:
+            grade = "A"
+        elif marks >= 75:
+            grade = "B"
+        elif marks >= 50:
+            grade = "C"
+        else:
+            grade = "F"
+
+        cleaned_data.append({
+            "Name": name,
+            "Age": age,
+            "Marks": marks,
+            "Grade": grade
+        })
+
+# Write Cleaned Data to New CSV File
+with open(output_file, "w", newline="") as file:
+    fieldnames = ["Name", "Age", "Marks", "Grade"]
+    writer = csv.DictWriter(file, fieldnames=fieldnames)
+
+    writer.writeheader()
+    writer.writerows(cleaned_data)
+
+print("Data processing completed successfully!")
+print("Cleaned data saved to:", output_file)
